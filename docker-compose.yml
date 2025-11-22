@@ -29,5 +29,32 @@ services:
     depends_on:
       - mongodb
 
+
+  # API .NET 8
+  api:
+    container_name: coredocu-api
+    build:
+      context: ./back/CoreDocu.Api
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      ASPNETCORE_URLS: "http://+:8080"
+    volumes:
+      - ./storage/attachments:/data/core-docu/attachments
+    depends_on:
+      - mongodb
+
+  # Angular + Nginx
+  web:
+    container_name: coredocu-web
+    build:
+      context: ./front/web
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    depends_on:
+      - api
+      
 volumes:
   mongodb_data:
