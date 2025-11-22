@@ -1,0 +1,29 @@
+@use "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* ===== ESTILOS BASE ===== */
+html,
+body {
+  @apply h-full w-full antialiased;
+}
+
+app-root {
+  @apply flex flex-col min-h-screen;
+}
+
+/* Scrollbar limpia */
+::-webkit-scrollbar {
+  width: 6px; /* vertical */
+  height: 6px; /* horizontal */
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-400/40 rounded;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500/60;
+}
+
+object[type="image/svg+xml"] {
+  background: white !important;
+}

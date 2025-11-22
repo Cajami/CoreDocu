@@ -1,0 +1,79 @@
+<div class="flex flex-col h-full min-h-0">
+  <div class="border-b border-gray-300 flex items-center justify-between mb-4">
+    <!-- Tabs -->
+    <div class="flex space-x-6">
+      <button
+        class="pb-2 px-1 -mb-px border-b-2 cursor-pointer transition-all"
+        [ngClass]="{
+          'border-blue-600 text-blue-600 ': modo === 'editar',
+          'border-gray-200 text-gray-600': modo !== 'editar'
+        }"
+        (click)="cambiarModo('editar')"
+      >
+        ✏️ Editar
+      </button>
+
+      <button
+        class="pb-2 px-1 -mb-px border-b-2 cursor-pointer transition-all"
+        [ngClass]="{
+          'border-blue-600 text-blue-600': modo === 'preview',
+          'border-gray-200 text-gray-600': modo !== 'preview'
+        }"
+        (click)="cambiarModo('preview')"
+      >
+        👁️ Vista Previa
+      </button>
+    </div>
+
+    <!-- Botón Archivos (solo en modo editar) -->
+    @if (modo === 'editar') {
+    <div class="flex gap-2 items-center">
+      <button
+        class="cursor-pointer text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-2 py-1 rounded-md"
+        title="Ejemplo Markdown"
+        (click)="openExampleMarkdown()"
+      >
+        💡
+      </button>
+
+      <button
+        class="cursor-pointer text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-2 py-1 rounded-md"
+        (click)="openAttachmentManager()"
+      >
+        📎 Archivos
+      </button>
+
+      <!-- Separador vertical -->
+      <div class="w-px h-5 bg-gray-300 mx-1"></div>
+
+      <button
+        class="cursor-pointer text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-md font-medium shadow-sm"
+        (click)="guardarMarkdown()"
+        [disabled]="isSaveDisabled"
+        [ngClass]="{
+          'bg-blue-600 hover:bg-blue-700 text-white': !isSaveDisabled,
+          'bg-gray-300 text-gray-500 cursor-not-allowed opacity-70':
+            isSaveDisabled
+        }"
+      >
+        💾 Guardar
+      </button>
+    </div>
+
+    }
+  </div>
+
+  <div class="flex min-h-0 flex-1">
+    @if (modo === 'editar') {
+    <textarea
+      #editor
+      (scroll)="onScroll(editor)"
+      [(ngModel)]="article.content"
+      (ngModelChange)="onTextChange($event)"
+      class="w-full h-full border border-gray-300 rounded-md p-2 bg-gray-50 font-mono resize-none outline-none focus:ring-0 focus:border-blue-200"
+    ></textarea>
+    }@else {
+    <app-visor-markdown [textMarkDown]="textMarkDown"></app-visor-markdown>
+    }
+  </div>
+</div>

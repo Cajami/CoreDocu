@@ -1,0 +1,24 @@
+<div class="flex h-[80vh] gap-4">
+  <!-- Acordeón -->
+  <div class="overflow-y-auto border-r pr-2">
+    <mat-accordion>
+      @for (item of examples; track $index) {
+
+      <mat-expansion-panel (opened)="select(item)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>{{ item.title }}</mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <pre class="p-2 bg-gray-100 rounded text-sm overflow-auto max-h-64"
+          >{{ item.markdown }}
+        </pre>
+
+        <!-- Vista Markdown -->
+        <div class="overflow-y-auto pl-2">
+          <app-visor-markdown [textMarkDown]="textMarkdown"> </app-visor-markdown>
+        </div>
+      </mat-expansion-panel>
+      }
+    </mat-accordion>
+  </div>
+</div>

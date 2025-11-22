@@ -1,0 +1,43 @@
+<!-- Toolbar -->
+<div class="flex items-center mb-6 p-2 bg-gray-100">
+  <!-- 🕵️‍♂️ Buscador -->
+  <div class="flex-1 flex">
+    <div class="flex flex-1 gap-2">
+      <button
+        class="px-2 py-1 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200"
+        (click)="onRefrescar()"
+      >
+        🔄️
+      </button>
+
+      <div class="flex gap-1 flex-1">
+        <div class="relative w-full">
+          <input
+            type="text"
+            placeholder="Buscar proyecto..."
+            class="px-4 py-2 w-full pr-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+            [(ngModel)]="searchText"
+            (input)="onInput($event)"
+          />
+
+          <!-- Botón X (solo si hay texto) -->
+           @if (searchText){
+             <button
+               class="absolute right-2 text-xl top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer"
+               (click)="clearSearch()"
+             >
+               ×
+             </button>
+
+           }
+        </div>
+      </div>
+    </div>
+  </div>
+  <button
+    class="ml-4 px-5 py-2 bg-sky-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
+    (click)="onNuevo()"
+  >
+    + Nuevo proyecto
+  </button>
+</div>

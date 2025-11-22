@@ -1,0 +1,21 @@
+<!-- TOOLBAR -->
+<app-toolbar
+  (onRefrescarEvent)="getAll()"
+  (onNuevoEvent)="createProject()"
+  (valueChange)="onSearch($event)"
+></app-toolbar>
+
+@if (loading) {
+<app-spinner-local></app-spinner-local>
+}
+
+<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  @for (item of projectsFilter; track $index) {
+  <app-card-project
+    [project]="item"
+    (onEditorEvent)="openEditor($event)"
+    (onViewEvent)="openViewer($event)"
+    (onEditProjectEvent)="editProject($event)"
+  ></app-card-project>
+  }
+</div>

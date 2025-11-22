@@ -1,0 +1,23 @@
+<div class="flex h-screen bg-gray-50">
+  <!-- Sidebar -->
+  <app-sidebar-project
+    [project]="project"
+    [editar]="false"
+    [selectedArticle]="selectedArticle"
+    (onLoadArticles)="onLoadArticles($event)"
+    (onSelectArticle)="onSelectArticle($event)"
+  ></app-sidebar-project>
+
+  <!-- Main -->
+  <main #main class="flex-1 p-1 overflow-auto bg-gray-50">
+    @if (selectedArticle) {
+    <app-visor-markdown
+      [textMarkDown]="selectedArticle.content"
+    ></app-visor-markdown>
+    } @else {
+    <div class="text-gray-500 text-center text-lg p-3">
+      Selecciona un artículo del proyecto para comenzar a editar 📄
+    </div>
+    }
+  </main>
+</div>

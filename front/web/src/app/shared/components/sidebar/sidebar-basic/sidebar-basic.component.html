@@ -1,0 +1,24 @@
+<aside class="w-64 bg-gray-50 shadow-md flex flex-col h-full">
+  <div class="overflow-y-auto pt-3">
+    @for (item of items; track $index) {
+    <div
+      class="px-3 py-3 text-gray-700 cursor-pointer hover:bg-gray-200"
+      [class.opacity-50]="item.disabled"
+      [class.pointer-events-none]="item.disabled"
+      [class.cursor-not-allowed]="item.disabled"
+      (click)="!item.disabled && itemSelected(item)"
+      [ngClass]="{
+        'bg-gray-400 font-bold': item.tag === selectedTag,
+      }"
+    >
+      <label
+        class="font-semibold flex justify-between items-center cursor-pointer select-none"
+      >
+        <span class="flex items-center gap-2">
+          {{ item.icon }} {{ item.title }}
+        </span>
+      </label>
+    </div>
+    }
+  </div>
+</aside>

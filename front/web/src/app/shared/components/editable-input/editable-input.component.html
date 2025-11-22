@@ -1,0 +1,12 @@
+<input
+  #inputEl
+  type="text"
+  [value]="value"
+  (input)="onInput($event)"
+  (keydown.enter)="onEnter()"
+  (keydown.escape)="onEscape()"
+  (blur)="onBlur()"
+  (click)="$event.stopPropagation()"
+  (contextmenu)="$event.stopPropagation()"
+  class="border border-blue-100 focus:border-blue-100 focus:ring-1 focus:ring-blue-100 rounded-md px-1 outline-none transition-all"
+/>

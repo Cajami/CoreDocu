@@ -1,0 +1,109 @@
+# CoreDocu
+
+##############################
+# Global settings
+##############################
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+!.gitkeep
+
+##############################
+# Node / Angular (frontend)
+##############################
+front/**/node_modules/
+front/**/dist/
+front/**/.angular/
+front/**/.vscode/
+front/**/coverage/
+front/**/tmp/
+front/**/npm-debug.log*
+front/**/yarn-debug.log*
+front/**/yarn-error.log*
+front/**/package-lock.json
+front/**/pnpm-lock.yaml
+
+##############################
+# .NET / Backend
+##############################
+back/**/bin/
+back/**/obj/
+back/**/Debug/
+back/**/Release/
+back/**/TestResults/
+back/**/.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.dll
+*.pdb
+*.exe
+
+##############################
+# Environment / Secrets
+##############################
+*.env
+*.env.local
+*.env.development
+*.env.production
+.env.*
+.envrc
+secrets.json
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.json
+
+##############################
+# Docker
+##############################
+/**/.docker/
+**/Dockerfile.local
+**/docker-compose.override.yml
+**/.env.docker
+
+##############################
+# Database / Scripts
+##############################
+db/**/data/
+db/**/dump/
+db/**/backups/
+db/**/temp/
+*.sql~
+*.js~
+
+##############################
+# System / IDE
+##############################
+.idea/
+.vscode/
+*.iml
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+*.ncrunchsolution
+*.ncrunchproject
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.dotCover
+
+##############################
+# Misc
+##############################
+*.zip
+*.tar.gz
+*.7z
+*.rar
+*.bak
+*.tmp
+*.cache
+
+##############################
+# VOLUMENES
+##############################
+db/
+storage/

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "p1",
+    "name": "CCD",
+    "description":"Core de Créditos Digital",
+    "sections": [
+      {
+        "id": "s1",
+        "title": "Introducción",
+        "subsections": [
+          {
+            "id": "ss1",
+            "title": "Objetivo",
+            "content": "# Objetivo\n\nEste documento describe el propósito del sistema."
+          },
+          {
+            "id": "ss2",
+            "title": "Alcance",
+            "content": "## Alcance\n\nEste manual cubre los procesos principales."
+          }
+        ]
+      },
+      {
+        "id": "s2",
+        "title": "Instalación",
+        "subsections": [
+          {
+            "id": "ss3",
+            "title": "Requerimientos",
+            "content": "### Requerimientos\n\n- Node.js 20+\n- Angular CLI 19"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "p2",
+    "name": "FCD",
+    "description":"Financiamiento de Ventas",
+    "sections": []
+  }
+]

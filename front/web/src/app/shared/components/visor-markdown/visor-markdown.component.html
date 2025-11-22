@@ -1,0 +1,25 @@
+<div class="min-h-0 h-full flex rounded-md bg-white">
+  <!-- Vista previa -->
+  <div #contentRef class="flex-1 p-3 overflow-auto prose max-w-none prose-sm" [innerHTML]="html"></div>
+
+  <!-- TOC a la derecha -->
+  <div
+    class="w-64 border-l border-gray-200 p-3 sticky top-0 h-full overflow-auto"
+  >
+    <ul class="space-y-2">
+      @for (item of listaHeadings; track item.id) {
+      <li
+        class="cursor-pointer text-xs"
+        [ngClass]="{
+          'pl-3': item.level === 2,
+          'pl-6': item.level === 3,
+          'text-blue-600 font-medium': item.id === headingActiva
+        }"
+        (click)="scrollToHeading(item.id)"
+      >
+        {{ item.text }}
+      </li>
+      }
+    </ul>
+  </div>
+</div>

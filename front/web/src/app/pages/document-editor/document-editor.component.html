@@ -1,0 +1,28 @@
+<div class="flex h-screen bg-gray-50">
+  <!-- Sidebar -->
+  <app-sidebar-project
+    [project]="project"
+    [selectedArticle]="selectedArticle"
+    (onLoadArticles)="onLoadArticles($event)"
+    (onEditSection)="onEditSection($event)"
+    (onEditArticle)="onEditArticle($event)"
+    (onDeleteSection)="onDeleteSection($event)"
+    (onDeleteArticle)="onDeleteArticle($event)"
+    (onSelectArticle)="onSelectArticle($event)"
+    (onEditOrderSection)="onEditOrderSection($event)"
+    (onEditOrderArticle)="onEditOrderArticle($event)"
+  ></app-sidebar-project>
+
+  <!-- Main -->
+  <main class="flex-1 p-1 overflow-auto bg-gray-200">
+    <div class="bg-gray-50 h-full p-3">
+      @if (selectedArticle) {
+      <app-editor-panel [article]="selectedArticle" />
+      } @else {
+      <div class="text-gray-500 text-center text-lg">
+        Selecciona un artículo del proyecto para comenzar a editar 📄
+      </div>
+      }
+    </div>
+  </main>
+</div>

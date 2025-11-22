@@ -1,0 +1,24 @@
+<label class="flex flex-col">
+  <span
+    class="block text-sm font-semibold"
+    [class.text-gray-700]="!(control?.invalid && control?.touched)"
+    [class.text-red-500]="control?.invalid && control?.touched"
+  >
+    {{ label }}
+    @if(isRequired){
+    <span class="text-red-500">*</span>
+    }
+  </span>
+  <input
+    #inputEl
+    [type]="type"
+    class="mt-1 w-full border border-gray-300 rounded-lg p-2 focus:outline-none disabled:bg-gray-100 disabled:text-gray-500 disabled:border-gray-300 disabled:cursor-not-allowed transition-colors"
+    [class.border-red-400]="control?.invalid && control?.touched"
+    [class.focus:borde-red-400]="control?.invalid && control?.touched"
+    [class.focus:border-gray-500]="!(control?.invalid && control?.touched)"
+    [disabled]="isDisabled"
+    [value]="value"
+    (input)="onChange(inputEl.value)"
+    (blur)="onTouched()"
+  />
+</label>

@@ -1,0 +1,55 @@
+<div
+  cdkDrag
+  cdkDragRootElement=".cdk-overlay-pane"
+  class="bg-white flex flex-col"
+>
+  <!-- Header -->
+  <div
+    cdkDragHandle
+    class="cursor-move bg-gray-800 text-white px-5 py-3 flex items-center justify-between"
+  >
+    <h2 class="text-lg font-semibold">
+      {{ data.title || "Modal" }}
+    </h2>
+
+    @if (data.buttonHeader) {
+    <button
+      class="flex items-center cursor-pointer gap-1 text-sm text-cyan-600 hover:text-cyan-700 font-medium"
+      (click)="buttonHeaderClic()"
+    >
+      {{ data.buttonHeader }}
+    </button>
+
+    }
+  </div>
+
+  <!-- Contenido -->
+  <div class="py-3 px-6 flex-1 overflow-auto">
+    <ng-template #dynamicHost></ng-template>
+  </div>
+
+  <!-- Footer -->
+  <div
+    class="flex gap-3 p-4 border-t border-gray-200 bg-gray-50"
+    [ngClass]="{
+      'justify-between': data.hideButtonSave !== true,
+      'justify-end': data.hideButtonSave
+    }"
+  >
+    <button
+      class="px-4 py-2 rounded-lg bg-gray-100 cursor-pointer hover:bg-gray-200 text-gray-700"
+      (click)="close()"
+    >
+      Cerrar
+    </button>
+
+    @if (data.hideButtonSave !== true) {
+    <button
+      class="px-4 py-2 rounded-lg bg-blue-600 cursor-pointer hover:bg-blue-700 text-white flex items-center gap-2"
+      (click)="save()"
+    >
+      💾 Guardar
+    </button>
+    }
+  </div>
+</div>

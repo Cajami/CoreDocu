@@ -1,0 +1,17 @@
+@if (state$ | async; as state) { @if (state.visible) {
+<div
+  class="context-menu fixed z-[99999] bg-white shadow-lg border mt-1 border-gray-200 rounded-md py-2"
+  [ngClass]="state.extraClass || 'text-xs w-42'"
+  [style.left.px]="state.x"
+  [style.top.px]="state.y"
+>
+  @for (item of state.items; track $index) {
+  <button
+    class="w-full text-left px-3 py-2 hover:bg-gray-100 cursor-pointer"
+    (click)="item.action()"
+  >
+    {{ item.label }}
+  </button>
+  }
+</div>
+} }

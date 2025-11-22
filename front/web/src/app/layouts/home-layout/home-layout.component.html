@@ -1,0 +1,22 @@
+<div class="flex h-screen flex-col bg-gray-200">
+  <!-- Header -->
+  <header class="bg-gray-800 shadow-md p-2 flex justify-between items-center">
+    <h1 class="text-2xl font-semibold text-gray-300">CoreDocu</h1>
+    <button
+      class="text-sm bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+      (click)="logout()"
+    >
+      Cerrar sesión
+    </button>
+  </header>
+
+  <div class="flex min-h-0 h-full">
+    <!-- SIDEBAR BASIC -->
+    <app-sidebar-basic [items]="items" (onItemSelected)="onItemSelected($event)"></app-sidebar-basic>
+
+    <!-- Main content -->
+    <main class="flex-1 p-6">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+<form [formGroup]="form" (ngSubmit)="save()" class="space-y-1">
+  @if (item?.id) {
+  <!-- ID -->
+  <app-form-row>
+    <app-form-input
+      label="Id"
+      [value]="form.get('id')?.value"
+      [isDisabled]="true"
+    ></app-form-input>
+  </app-form-row>
+  }
+
+  <!-- NOMBRE -->
+  <app-form-row>
+    <app-form-input [label]="'Nombre'" formControlName="name"></app-form-input>
+  </app-form-row>
+
+  <!-- DESCRIPCION -->
+  <app-form-row>
+    <app-form-input
+      [label]="'Descripción'"
+      formControlName="description"
+    ></app-form-input>
+  </app-form-row>
+</form>

@@ -1,0 +1,124 @@
+<aside class="w-64 bg-white shadow-md flex flex-col h-full">
+  <div class="px-4 py-2 border-b">
+    <p class="text-xs text-gray-500">Proyecto</p>
+    <h2 class="text-lg font-semibold text-gray-700">{{ project.name }}</h2>
+  </div>
+
+  <!-- Secciones -->
+  <div class="flex-1 overflow-y-auto p-1 min-h-0">
+    <div
+      class="mb-3"
+      cdkDropList
+      [cdkDropListDisabled]="!editar"
+      (cdkDropListDropped)="dropSection($event)"
+    >
+      @for (section of project.sections; track section.id) {
+      <div cdkDrag class="group mb-1 cursor-grab active:cursor-grabbing">
+        <input
+          type="checkbox"
+          id="section-{{ $index }}"
+          class="hidden peer"
+          [(ngModel)]="section.expanded"
+          (change)="onToggleSection(section, $event)"
+        />
+
+        <label
+          for="section-{{ $index }}"
+          class="font-semibold text-gray-700 flex justify-between items-center cursor-pointer select-none peer-checked:text-blue-600 transition-colors"
+          (contextmenu)="editar && contextMenuOpenSection($event, section)"
+        >
+          <span class="flex items-center gap-2">
+            <svg
+              class="w-4 h-4 text-gray-500 transform transition-transform duration-200 group-has-[input:checked]:rotate-90"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"
+              ></path>
+            </svg>
+
+            @if (idEdit === section.id) {
+            <app-editable-input
+              [(value)]="section.title"
+              (enterEvent)="stopEditSection(section)"
+              (blurEvent)="stopEditSection(section)"
+              (escapeEvent)="stopEditSection(section)"
+            />
+            } @else {
+            <span>{{ section.title }}</span>
+            }
+          </span>
+
+          <!-- Spinner de carga subsecciones -->
+          @if (section.loading) {
+          <span class="inline-block animate-spin text-gray-400 text-xs"
+            >⏳</span
+          >
+          }
+        </label>
+
+        <!-- Articles plegables -->
+        <ul
+          class="ml-5 mt-1 border-l border-gray-200 max-h-0 overflow-hidden transition-all duration-100 ease-in-out peer-checked:max-h-none"
+          cdkDropList
+          [cdkDropListDisabled]="!editar"
+          (cdkDropListDropped)="dropArticle($event, section)"
+        >
+          @for (article of section.articles; track article.id) {
+          <li
+            class="pl-2 py-1 flex justify-between items-center cursor-pointer text-gray-600 hover:text-blue-600"
+            [ngClass]="{
+              'bg-blue-100 text-blue-700 font-bold':
+                selectedArticle?.id === article.id
+            }"
+            (click)="selectArticle(article)"
+            (contextmenu)="editar && contextMenuOpenArticle($event, article)"
+            cdkDrag
+          >
+            @if (idEdit === article.id) {
+            <app-editable-input
+              [(value)]="article.title"
+              (enterEvent)="stopEditArticle(article)"
+              (blurEvent)="stopEditArticle(article)"
+              (escapeEvent)="stopEditArticle(article)"
+            />
+            } @else {
+            <span>{{ article.title }}</span>
+            }
+
+            <!-- Spinner al editar subsección -->
+            @if (article.loading) {
+            <span class="inline-block animate-spin text-gray-400 text-xs"
+              >⏳</span
+            >
+            }
+          </li>
+          }
+        </ul>
+      </div>
+      } @if (editar) {
+      <button
+        class="mt-4 text-blue-600 text-sm hover:underline"
+        (click)="addSection()"
+      >
+        + Agregar sección
+      </button>
+      }
+    </div>
+  </div>
+
+  <div class="p-2 border-t border-gray-400">
+    <button
+      class="w-full bg-gray-500 text-white py-1 rounded-md hover:bg-gray-600 cursor-pointer"
+      (click)="finishEditing()"
+    >
+      {{ editar ? "✔️ Terminar edición" : "Regresar" }}
+    </button>
+  </div>
+</aside>
