@@ -10,6 +10,7 @@ import { ProjectsService } from '../../core/services/projects.service';
 import { catchError, EMPTY, finalize, Observable, switchMap, tap } from 'rxjs';
 import { ArticlesService } from '../../core/services/articles.service';
 import { EditorPanelComponent } from './components/editor-panel/editor-panel.component';
+import { ToastService } from '../../core/services/toast.service';
 
 @Component({
   selector: 'app-document-editor',
@@ -26,7 +27,8 @@ export class DocumenEditorComponent {
     private route: ActivatedRoute,
     private projectsService: ProjectsService,
     private sectionsService: SectionsService,
-    private articlesService: ArticlesService
+    private articlesService: ArticlesService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit() {
@@ -41,7 +43,7 @@ export class DocumenEditorComponent {
         switchMap(() => this.sectionsService.getByProject(this.project.id)),
         tap((sections) => (this.project.sections = sections)),
         catchError((err) => {
-          alert(err.message);
+          this.toastService.error(err.message);
           this.finishEditing();
           return EMPTY;
         })
@@ -57,7 +59,7 @@ export class DocumenEditorComponent {
         tap((article) => (section.articles = article)),
         finalize(() => (section.loading = false)),
         catchError((err) => {
-          alert(err.message);
+          this.toastService.error(err.message);
           return EMPTY;
         })
       )
@@ -92,7 +94,7 @@ export class DocumenEditorComponent {
         }),
         finalize(() => (item.loading = false)),
         catchError((err) => {
-          alert(err.message);
+          this.toastService.error(err.message);
 
           if (idTemporal !== '') {
             this.project.sections = this.project.sections.filter(
@@ -111,7 +113,7 @@ export class DocumenEditorComponent {
       .updateOrder(lista)
       .pipe(
         catchError((err) => {
-          alert(err.message);
+          this.toastService.error(err.message);
           return EMPTY;
         })
       )
@@ -145,7 +147,7 @@ export class DocumenEditorComponent {
         }),
         finalize(() => (item.loading = false)),
         catchError((err) => {
-          alert(err.message);
+          this.toastService.error(err.message);
 
           if (idTemporal !== '') {
             const parentSection = this.project.sections.find(
@@ -170,7 +172,7 @@ export class DocumenEditorComponent {
       .updateOrder(lista)
       .pipe(
         catchError((err) => {
-          alert(err.message);
+          this.toastService.error(err.message);
           return EMPTY;
         })
       )
@@ -179,7 +181,7 @@ export class DocumenEditorComponent {
 
   onDeleteSection(item: Section) {
     if (item.articles && item.articles.length > 0)
-      return alert(
+      return this.toastService.error(
         `La sección ${item.title} tiene ${item.articles.length} artículo(s) creados`
       );
 
@@ -195,7 +197,7 @@ export class DocumenEditorComponent {
         }),
         finalize(() => (item.loading = false)),
         catchError((err) => {
-          alert(err.message);
+          this.toastService.error(err.message);
           return EMPTY;
         })
       )
@@ -221,7 +223,7 @@ export class DocumenEditorComponent {
         }),
         finalize(() => (item.loading = false)),
         catchError((err) => {
-          alert(err.message);
+          this.toastService.error(err.message);
           return EMPTY;
         })
       )
@@ -240,7 +242,7 @@ export class DocumenEditorComponent {
           }),
           finalize(() => (item.loading = false)),
           catchError((err) => {
-            alert(err.message);
+            this.toastService.error(err.message);
             return EMPTY;
           })
         )

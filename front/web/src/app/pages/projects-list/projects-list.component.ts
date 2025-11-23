@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModalContainerComponent } from '../../shared/components/modal-container/modal-container.component';
 import { ProjectCreateComponent } from '../project-create/project-create.component';
 import { catchError, EMPTY, tap } from 'rxjs';
+import { ToastService } from '../../core/services/toast.service';
 
 @Component({
   selector: 'app-projects-list',
@@ -30,7 +31,8 @@ export class ProjectsListComponent implements OnInit {
   constructor(
     private projectsService: ProjectsService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private toastService: ToastService
   ) {}
 
   ngOnInit() {
@@ -49,7 +51,7 @@ export class ProjectsListComponent implements OnInit {
         }),
         catchError((error) => {
           this.loading = false;
-          alert(error.message);
+          this.toastService.error(error.message);
           return EMPTY;
         })
       )

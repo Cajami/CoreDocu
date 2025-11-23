@@ -20,7 +20,7 @@ import { AttachmentManagerComponent } from '../attachment-manager/attachment-man
 import { MarkdownExamplesComponent } from '../markdown-examples/markdown-examples.component';
 import { ArticlesService } from '../../../../core/services/articles.service';
 import { catchError, EMPTY, finalize, Subject, tap } from 'rxjs';
-import { toast } from 'ngx-sonner';
+import { ToastService } from '../../../../core/services/toast.service';
 
 @Component({
   selector: 'app-editor-panel',
@@ -33,9 +33,7 @@ export class EditorPanelComponent implements OnInit {
 
   @Input({ required: true }) article!: Article;
 
-  protected readonly toast = toast;
-
-  private contenidoSubject = new Subject<string>();
+  // private contenidoSubject = new Subject<string>(); //PAR LA SECCION ngOnInit
 
   modo: 'editar' | 'preview' = 'editar';
   scrollPos = 0; // posición guardada
@@ -47,7 +45,8 @@ export class EditorPanelComponent implements OnInit {
   constructor(
     private sanitizer: DomSanitizer,
     private dialog: MatDialog,
-    private articlesService: ArticlesService
+    private articlesService: ArticlesService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit() {
@@ -67,7 +66,7 @@ export class EditorPanelComponent implements OnInit {
 
   onTextChange(nuevo: string) {
     this.isSaveDisabled = nuevo.trim() === this.textMarkDownOriginal.trim();
-    this.contenidoSubject.next(nuevo);
+    // this.contenidoSubject.next(nuevo); //PAR LA SECCION ngOnInit
   }
 
   onScroll(txt: HTMLTextAreaElement) {
@@ -95,6 +94,7 @@ export class EditorPanelComponent implements OnInit {
     } else {
       //preview
       this.textMarkDown = this.article.content || '';
+      if (this.isSaveDisabled === false) this.guardarMarkdown();
     }
   }
 
@@ -154,11 +154,12 @@ export class EditorPanelComponent implements OnInit {
       .pipe(
         tap(() => {
           this.textMarkDownOriginal = this.article.content;
-          this.toast.success('Contenido guardado');
+          this.toastService.success('Contenido guardado');
+          this.isSaveDisabled = true;
         }),
         finalize(() => (this.article.loading = false)),
         catchError((err) => {
-          alert(err.message);
+          this.toastService.error(err.message);
           return EMPTY;
         })
       )

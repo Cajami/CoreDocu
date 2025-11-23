@@ -19,8 +19,8 @@ import {
   getAcceptString,
   getFileIcon,
 } from '../../../../core/utils/file-utils';
-import { toast } from 'ngx-sonner';
 import { ContextMenuGlobalService } from '../../../../core/services/context-menu-global.service';
+import { ToastService } from '../../../../core/services/toast.service';
 
 @Component({
   selector: 'app-attachment-manager',
@@ -29,8 +29,6 @@ import { ContextMenuGlobalService } from '../../../../core/services/context-menu
   styleUrl: './attachment-manager.component.scss',
 })
 export class AttachmentManagerComponent implements OnInit {
-  protected readonly toast = toast;
-
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   @Input({ required: true }) article!: Article;
@@ -45,7 +43,8 @@ export class AttachmentManagerComponent implements OnInit {
 
   constructor(
     private articlesService: ArticlesService,
-    private contextMenuService: ContextMenuGlobalService
+    private contextMenuService: ContextMenuGlobalService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit() {}
@@ -70,9 +69,8 @@ export class AttachmentManagerComponent implements OnInit {
     }
 
     navigator.clipboard.writeText(markdown).then(() => {
-      this.toast.success('Copiado en portapapeles', { duration: 1000 });
+      this.toastService.success('Copiado en portapapeles', { duration: 1000 });
     });
-
   }
 
   onFileSelected(event: Event) {
@@ -83,7 +81,7 @@ export class AttachmentManagerComponent implements OnInit {
     const extension = file.name.split('.').pop()?.toLowerCase();
 
     if (!extension || !this.validExtensions.includes(extension)) {
-      alert('❌ Tipo de archivo no permitido.');
+      this.toastService.error('❌ Tipo de archivo no permitido.');
       this.fileInput.nativeElement.value = '';
       return;
     }
@@ -120,11 +118,11 @@ export class AttachmentManagerComponent implements OnInit {
             (a) => a.id !== newFile.id
           );
           if (!error?.success)
-            alert(
+            this.toastService.error(
               error?.errors?.[0] ||
                 'Error al procesar la respuesta del servicio'
             );
-          else alert('Error al conectarse con el servicio');
+          else this.toastService.error('Error al conectarse con el servicio');
 
           return EMPTY;
         })
@@ -155,7 +153,6 @@ export class AttachmentManagerComponent implements OnInit {
 
   // Toggle del menú
   toggleMenu(file: Attachment, event: MouseEvent) {
-
     this.contextMenuService.open(event.clientX, event.clientY, [
       {
         label: '🖼️ Copiar como imagen',

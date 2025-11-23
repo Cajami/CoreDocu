@@ -10,12 +10,17 @@
     </button>
   </header>
 
-  <div class="flex min-h-0 h-full">
-    <!-- SIDEBAR BASIC -->
-    <app-sidebar-basic [items]="items" (onItemSelected)="onItemSelected($event)"></app-sidebar-basic>
+  <!-- Área principal con scroll interno habilitado -->
+  <div class="flex flex-1 min-h-0">
+    <!-- Sidebar -->
+    <app-sidebar-basic
+      [items]="items"
+      (onItemSelected)="onItemSelected($event)"
+    >
+    </app-sidebar-basic>
 
-    <!-- Main content -->
-    <main class="flex-1 p-6">
+    <!-- Main content con scroll -->
+    <main class="flex-1 p-6 overflow-y-auto">
       <router-outlet></router-outlet>
     </main>
   </div>

@@ -9,6 +9,7 @@ import { SectionsService } from '../../core/services/sections.service';
 import { ArticlesService } from '../../core/services/articles.service';
 import { catchError, EMPTY, finalize, switchMap, tap } from 'rxjs';
 import { Section } from '../../core/models/section';
+import { ToastService } from '../../core/services/toast.service';
 
 @Component({
   selector: 'app-document-viewer',
@@ -27,7 +28,8 @@ export class DocumentViewerComponent implements OnInit {
     private route: ActivatedRoute,
     private projectsService: ProjectsService,
     private sectionsService: SectionsService,
-    private articlesService: ArticlesService
+    private articlesService: ArticlesService,
+    private toastService:ToastService
   ) {}
 
   ngOnInit() {
@@ -42,7 +44,7 @@ export class DocumentViewerComponent implements OnInit {
         switchMap(() => this.sectionsService.getByProject(this.project.id)),
         tap((sections) => (this.project.sections = sections)),
         catchError((err) => {
-          alert(err.message);
+          this.toastService.error(err.message);
           this.finishEditing();
           return EMPTY;
         })
@@ -58,7 +60,7 @@ export class DocumentViewerComponent implements OnInit {
         tap((article) => (section.articles = article)),
         finalize(() => (section.loading = false)),
         catchError((err) => {
-          alert(err.message);
+          this.toastService.error(err.message);
           return EMPTY;
         })
       )

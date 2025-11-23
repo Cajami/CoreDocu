@@ -10,6 +10,7 @@ import {
 import { Project } from '../../core/models/project';
 import { ProjectsService } from '../../core/services/projects.service';
 import { catchError, EMPTY, tap } from 'rxjs';
+import { ToastService } from '../../core/services/toast.service';
 
 @Component({
   selector: 'app-project-create',
@@ -25,7 +26,8 @@ export class ProjectCreateComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private projectsService: ProjectsService
+    private projectsService: ProjectsService,
+    private toastService: ToastService
   ) {
     this.form = this.fb.group({
       id: [{ value: '', disabled: true }],
@@ -55,18 +57,24 @@ export class ProjectCreateComponent implements OnInit {
     } as Project;
 
     let send;
+    let mensajeOK = '';
     if (this.item?.id) {
       //MODIFICAMOS
       send = this.projectsService.update(this.item.id, request);
+      mensajeOK = 'Registro modificadó correctamente';
     } else {
       //INSERTAMOS
       send = this.projectsService.create(request);
+      mensajeOK = 'Registro guardado correctamente';
     }
     send
       .pipe(
-        tap((response) => this.closeModal.emit(true)),
+        tap((response) => {
+          this.closeModal.emit(true);
+          this.toastService.success(mensajeOK);
+        }),
         catchError((error) => {
-          alert(error.message);
+          this.toastService.error(error.message);
           return EMPTY;
         })
       )
