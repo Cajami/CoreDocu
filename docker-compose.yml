@@ -55,6 +55,3 @@ services:
       - "8090:80"
     depends_on:
       - api
-      
-volumes:
-  mongodb_data:
